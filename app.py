@@ -25,7 +25,9 @@ if not os.path.exists(MODEL_PATH):
     gdown.download(url, MODEL_PATH, quiet=False)
 
 # model = tf.keras.models.load_model(MODEL_PATH)
-model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+# model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+model = tf.keras.models.load_model("InceptionV3_model_Adam_Tea.h5")
+model.save("InceptionV3_model_Adam_Tea_SavedModel")
 
 # -----------------------------
 # Class labels
