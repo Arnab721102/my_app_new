@@ -24,7 +24,8 @@ if not os.path.exists(MODEL_PATH):
     url = "https://drive.google.com/uc?id=1G2QICI8PudXjtsRNIRM2mTYhoapy9S9H"
     gdown.download(url, MODEL_PATH, quiet=False)
 
-model = tf.keras.models.load_model(MODEL_PATH)
+# model = tf.keras.models.load_model(MODEL_PATH)
+model = tf.keras.models.load_model(MODEL_PATH, compile=False)
 
 # -----------------------------
 # Class labels
