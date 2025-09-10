@@ -1,6 +1,7 @@
 flask
-tensorflow
+tensorflow-cpu
 keras
-requests
+pillow
+numpy
 gunicorn
 gdown
