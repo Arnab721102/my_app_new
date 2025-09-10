@@ -1,24 +1,23 @@
+import os
+# Disable GPU to avoid CUDA errors on Render
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 from flask import Flask, render_template, request
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import os
 import uuid
+import gdown
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-# Create upload folder if not exists
+# Create upload folder if it doesn't exist
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# Load the trained model
-# model = tf.keras.models.load_model('F://TeaLeaf//InceptionV3_model_Adam_Tea.h5')
-#model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), "InceptionV3_model_Adam_Tea.h5"))
-#print("Model loaded successfully.")
-import os
-import gdown
-import tensorflow as tf
-
+# -----------------------------
+# Model download + load
+# -----------------------------
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "InceptionV3_model_Adam_Tea.h5")
 
 if not os.path.exists(MODEL_PATH):
@@ -27,18 +26,21 @@ if not os.path.exists(MODEL_PATH):
 
 model = tf.keras.models.load_model(MODEL_PATH)
 
-
-# Define class labels
+# -----------------------------
+# Class labels
+# -----------------------------
 class_names = [
     'algal_spot',
-    'brown_blight', 
+    'brown_blight',
     'gray_blight',
     'healthy',
     'helopeltis',
     'red_spot'
 ]
 
-# Recommendations
+# -----------------------------
+# Recommendations for each disease
+# -----------------------------
 recommendations = {
     'algal_spot': 'Apply copper-based fungicides (e.g., copper oxychloride). Avoid excessive leaf wetness and improve air circulation. Prune infected areas to limit spread.',
     'brown_blight': 'Remove and destroy affected leaves. Apply protective fungicides like mancozeb or copper oxychloride. Ensure proper drainage and avoid overcrowding of plants.',
@@ -48,13 +50,18 @@ recommendations = {
     'red_spot': 'Apply recommended fungicides like chlorothalonil or mancozeb. Improve drainage and avoid overhead irrigation to reduce leaf wetness. Remove affected leaves.'
 }
 
-# Preprocess input image
+# -----------------------------
+# Preprocess uploaded image
+# -----------------------------
 def preprocess_image(image):
     image = image.resize((224, 224))
     image = np.array(image) / 255.0
     image = np.expand_dims(image, axis=0)
     return image
 
+# -----------------------------
+# Routes
+# -----------------------------
 @app.route('/', methods=['GET', 'POST'])
 def index():
     prediction = None
@@ -85,7 +92,9 @@ def index():
                            image_filename=image_filename,
                            recommendation=recommendation)
 
+# -----------------------------
+# Run server
+# -----------------------------
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
-
