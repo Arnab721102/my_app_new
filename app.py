@@ -13,8 +13,21 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Load the trained model
 # model = tf.keras.models.load_model('F://TeaLeaf//InceptionV3_model_Adam_Tea.h5')
-model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), "InceptionV3_model_Adam_Tea.h5"))
-print("Model loaded successfully.")
+#model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), "InceptionV3_model_Adam_Tea.h5"))
+#print("Model loaded successfully.")
+import os
+import gdown
+import tensorflow as tf
+
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "InceptionV3_model_Adam_Tea.h5")
+
+if not os.path.exists(MODEL_PATH):
+    url = "https://drive.google.com/uc?id=1G2QICI8PudXjtsRNIRM2mTYhoapy9S9H"
+    gdown.download(url, MODEL_PATH, quiet=False)
+
+model = tf.keras.models.load_model(MODEL_PATH)
+
+
 # Define class labels
 class_names = [
     'algal_spot',
