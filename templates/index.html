@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tea Leaf Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🍃 Tea Leaf Disease Detection</h1>
+            <form method="POST" enctype="multipart/form-data">
+                <label>Upload Tea Leaf Image:</label><br><br>
+                <input type="file" name="file" accept="image/*" required><br><br>
+                <input type="submit" value="Predict">
+            </form>
+
+            {% if image_filename %}
+                <h3>📷 Uploaded Image:</h3>
+                <img src="{{ url_for('static', filename='uploads/' + image_filename) }}" width="300"><br><br>
+            {% endif %}
+
+            {% if prediction %}
+                <h3>🧪 Prediction Result:</h3>
+                <p><strong>Pest:</strong> {{ prediction }}</p>
+                <p><strong>Confidence:</strong> {{ confidence }}%</p>
+                <p><strong>Recommendation:</strong> {{ recommendation }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
