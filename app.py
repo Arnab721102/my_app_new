@@ -12,7 +12,8 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Load the trained model
-model = tf.keras.models.load_model('F://TeaLeaf//InceptionV3_model_Adam_Tea.h5')
+# model = tf.keras.models.load_model('F://TeaLeaf//InceptionV3_model_Adam_Tea.h5')
+model = tf.keras.models.load_model("InceptionV3_model_Adam_Tea.h5")
 
 # Define class labels
 class_names = [
